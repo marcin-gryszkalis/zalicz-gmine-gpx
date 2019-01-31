@@ -4,11 +4,11 @@ use warnings;
 use Data::Dumper;
 
 use Geo::ShapeFile;
+use Geo::ShapeFile::Point;
 use Geo::Proj4;
 use Geo::Gpx;
 
-
-my $timedelta = 10 * 60;
+my $timedelta = 5 * 60;
 
 my $proj = Geo::Proj4->new(init => "epsg:2180") or die;
 
@@ -31,17 +31,19 @@ while (my $pt = $iter->())
     $prevtime = $pt->{time};
 
     my @p = $proj->forward( $pt->{lat}, $pt->{lon});
-    # print STDERR Dumper \@p;
 
     my @f = $shapefile->shapes_in_area ($p[0], $p[1], $p[0], $p[1]);
 
     for my $id (@f)
     {
         next if exists $visited->{$id};
-  
+
+        my $shape = $shapefile->get_shp_record($id);
+        my $point = Geo::ShapeFile::Point->new(X => $p[0], Y => $p[1]);
+        next unless $shape->contains_point($point);
+
         my %db = $shapefile->get_dbf_record($id);
-        printf "%6d %8s %8s %8s %s\n", $id, $db{jpt_opis}, $db{jpt_kod_je}, $db{jpt_kj_i01}, $db{jpt_nazwa_};
-        print "$pt->{lat} $pt->{lon} :: $p[0] $p[1]\n";
+        printf "%6d %6s %7s %s\n", $id, $db{jpt_opis}, $db{jpt_kod_je}, $db{jpt_nazwa_};
         $visited->{$id} = 1;
     }
 }
