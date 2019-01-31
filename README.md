@@ -1,6 +1,9 @@
 # zalicz-gmine-gpx
 
-# Requirements
+## Zalicz Gmine
+http://zaliczgmine.pl/
+
+## Requirements
 
 * unpacked gminy.zip from https://gis-support.pl/granice-administracyjne/
 * perl packages
@@ -8,7 +11,7 @@
     * Geo::Proj4
     * Geo::Gpx
  
-# Usage
+## Usage
 
 ```
 % perl gpx2gminy.pl poznan-lodz.gpx
