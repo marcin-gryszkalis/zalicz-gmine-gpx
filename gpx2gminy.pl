@@ -8,7 +8,7 @@ use Geo::ShapeFile::Point;
 use Geo::Proj4;
 use Geo::Gpx;
 
-my $timedelta = 5 * 60;
+my $timedelta = 60;
 
 my $proj = Geo::Proj4->new(init => "epsg:2180") or die;
 
@@ -23,6 +23,7 @@ print STDERR "tracing\n";
 
 my $visited;
 my $prevtime = 0;
+my $i = 1;
 my $iter = $gpx->iterate_trackpoints();
 while (my $pt = $iter->()) 
 {
@@ -43,7 +44,7 @@ while (my $pt = $iter->())
         next unless $shape->contains_point($point);
 
         my %db = $shapefile->get_dbf_record($id);
-        printf "%6d %6s %7s %s\n", $id, $db{jpt_opis}, $db{jpt_kod_je}, $db{jpt_nazwa_};
+        printf "%3d %6d %6s %7s %s\n", $i++, $id, $db{jpt_opis}, $db{jpt_kod_je}, $db{jpt_nazwa_};
         $visited->{$id} = 1;
     }
 }
