@@ -3,6 +3,8 @@ use strict;
 use warnings;
 use Data::Dumper;
 use POSIX qw(strftime);
+use List::Util qw(shuffle);
+use Math::Polygon;
 
 use Geo::ShapeFile;
 use Geo::ShapeFile::Point;
@@ -27,7 +29,7 @@ while (<$mf>)
 }
 close ($mf);
 
-for my $zgid (0..2479)
+for my $zgid (1..2479)
 {
     next if exists $zgt->{$zgid};
 
@@ -36,7 +38,14 @@ for my $zgid (0..2479)
     next unless $h =~ m/L.polygon/;
     $h =~ s/.*L.polygon\((.*?)\).*/$1/s;
     $h = eval $h;
-      
+    
+    # take random 100 points from border
+    my @hh = shuffle(@$h);
+    @hh = @hh[1..100]; 
+    $h = \@hh;
+
+#    my $poly = Math::Polygon->new();    
+
     my $m;
     
     while (my $pt = pop @$h) 
