@@ -87,7 +87,7 @@ for my $zgid (1..2479)
 
     # take random n points from border
     my @hh = shuffle(@$h);
-    @hh = @hh[1..64];
+    @hh = @hh[1..8];
     $h = \@hh;
     
     push(@$h, $poly->centroid); # fails in some cases (eg. Poronin)
@@ -103,7 +103,7 @@ for my $zgid (1..2479)
         for my $id (@f)
         {
             my %db = $shapefile->get_dbf_record($id);
-            print STDERR "$label: check($db{jpt_nazwa_} ($db{jpt_kod_je}))\n";
+#            print STDERR "$label: check($db{jpt_nazwa_} ($db{jpt_kod_je}))\n";
             next if exists $m->{$db{jpt_kod_je}};
             
             my $shape = $shapefile->get_shp_record($id); 
@@ -125,9 +125,10 @@ for my $zgid (1..2479)
     my $ms = $mss[0];
 
     my $status;
-    if ($label eq $terytnaz->{$ms}) { $status = 'OK' }
-    elsif ($label =~ m/^$terytnaz->{$ms}/) { $status = 'BG'; }
-    else { $status = '--'; }
+    my $commonpfx = ("$label:$terytnaz->{$ms}"  =~ /^([^:]+).*:(\1)/)[0];
+    if ($label eq $terytnaz->{$ms}) { $status = 'OK' } # equal
+    elsif (length $commonpfx > 0) { $status = 'BG'; } # beginning
+    else { $status = 'NM'; } # not matched
 
     print STDERR "$status $zgid ($label) -> $ms ($terytnaz->{$ms})\n";
 
