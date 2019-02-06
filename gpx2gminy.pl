@@ -13,8 +13,10 @@ my $timedelta = 60;
 
 my $proj = Geo::Proj4->new(init => "epsg:2180") or die;
 
+
 print STDERR "loading gminy\n";
 my $shapefile = Geo::ShapeFile->new('gminy');
+
 
 print STDERR "loading gpx\n";
 my $gpxfn = $ARGV[0] // die "specify gpx";
@@ -29,9 +31,24 @@ if (!defined $gpxname)
     $gpxname =~ s{\.gpx}{}i;
 }
 
+
+print STDERR "loading zg-teryt map\n";
+my $tzg;
+my $zgt;
+open(my $mf, "zgid-teryt-map.txt.backup3") or die $!;
+while (<$mf>)
+{
+    chomp;
+    my @m = split/:/;
+    $tzg->{$m[1]} = $m[0];
+    $zgt->{$m[0]} = $m[1];
+}
+close ($mf);
+
+
 printf STDERR "tracing: %s\n", $gpxname;
 
-printf "%3s %-6s %-6s %-7s %-10s %s\n", '#', 'id', 'jpt_op', 'teryt', 'date', 'nazwa';
+printf "%3s %-4s %-6s %-7s %-10s %s\n", '#', 'zgid', 'jpt_op', 'teryt', 'date', 'nazwa';
 my $visited;
 my $prevtime = 0;
 my $i = 1;
@@ -55,7 +72,8 @@ while (my $pt = $iter->())
 
         my $d = POSIX::strftime("%F", localtime $pt->{time});
         my %db = $shapefile->get_dbf_record($id);
-        printf "%3d %6d %6s %7s %10s %s\n", $i++, $id, $db{jpt_opis}, $db{jpt_kod_je}, $d, $db{jpt_nazwa_};
+        my $zgid = $tzg->{$db{jpt_kod_je}} // '----';
+        printf "%3d %4s %6s %7s %10s %s\n", $i++, $zgid, $db{jpt_opis}, $db{jpt_kod_je}, $d, $db{jpt_nazwa_};
         $visited->{$id} = 1;
     }
 }
