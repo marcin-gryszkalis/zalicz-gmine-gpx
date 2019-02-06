@@ -14,6 +14,7 @@ http://zaliczgmine.pl/
 ## Usage
 
 ```
+% perl gpx2gminy.pl poznan-lodz.gpx
 loading gminy
 loading gpx
 tracing: poznan-lodz
