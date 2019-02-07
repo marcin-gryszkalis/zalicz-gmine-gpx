@@ -38,5 +38,8 @@ inc/
 # custom
 
 *.gpx
+gpx/*.gpx
+reports/*.txt
 gminy.*
 cache
+reports
