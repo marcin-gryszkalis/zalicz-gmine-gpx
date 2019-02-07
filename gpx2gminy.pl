@@ -9,7 +9,11 @@ use Geo::ShapeFile::Point;
 use Geo::Proj4;
 use Geo::Gpx;
 
+# min time between checked points
 my $timedelta = 60;
+
+# no buffering
+select(STDOUT); $| = 1;
 
 my $proj = Geo::Proj4->new(init => "epsg:2180") or die;
 
@@ -35,7 +39,7 @@ if (!defined $gpxname)
 print STDERR "loading zg-teryt map\n";
 my $tzg;
 my $zgt;
-open(my $mf, "zgid-teryt-map.txt.backup3") or die $!;
+open(my $mf, "zgid-teryt-map.txt") or die $!;
 while (<$mf>)
 {
     chomp;
