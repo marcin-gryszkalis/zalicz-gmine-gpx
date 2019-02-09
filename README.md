@@ -86,7 +86,7 @@ tracing: 2019-01-05_14-09-21_Afternoon_Ride_Cycling.tcx
 ```
 
 ### Merge reports
-This script will process will take all .txt files from reports/, merge them and create summary in all-reports.txt (sorted by date)
+This script will process all .txt files from reports/, merge them and create summary in all-reports.txt (sorted by date)
 ```
 % perl merge-all-reports.pl
 processing: reports/2019-01-05_14-09-21_Afternoon_Ride_Cycling.txt
