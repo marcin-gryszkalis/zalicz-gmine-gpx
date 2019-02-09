@@ -22,7 +22,7 @@ while (<$sf>)
     push(@{$h->{$zgdate}}, $zgid);
 }
 
-print STDERR Dumper $h;
+# print STDERR Dumper $h;
 
 my $ua = LWP::UserAgent->new(requests_redirectable => ['GET', 'POST']);
 $ua->cookie_jar({}); # temp jar
@@ -34,13 +34,12 @@ ReadMode 'normal';
 print "zaliczgmine.pl username: ";
 my $zguser = ReadLine 0;
 chomp $zguser;
-print "\n";
 ReadMode 'noecho';
 print "zaliczgmine.pl password: ";
 my $zgpass = ReadLine 0;
 chomp $zgpass;
-print "\n";
 ReadMode 'normal'; 
+print "\n";
 
 my $p;
 
@@ -48,6 +47,22 @@ $p->{'data[User][username]'} = $zguser;
 $p->{'data[User][password]'} = $zgpass;
 $r = $ua->post('http://zaliczgmine.pl/users/login', $p);
 die $r->status_line unless $r->is_success;
+
+my $html = $r->decoded_content;
+die "cannot login" unless $html =~ /<title>(\S+)\s*\((\d+)/;
+my $v1 = $2;
+
+my $visited;
+for my $l (split/[\r\n]/, $html)
+{
+    next unless $l =~ m{<td><a href="/communes/view/(\d+)};
+    $visited->{$1} = 1;
+}
+my $v2 = scalar keys %$visited;
+
+die "visited mismatch $v1 <> $v2" unless $v1 == $v2; 
+
+print STDERR "user: $zguser ($v1)\n";
 
 # print STDERR $r->decoded_content
 for my $d (keys %$h)
@@ -63,13 +78,20 @@ for my $d (keys %$h)
     $p->{'data[UsersCommune][commune_add_date][month]'} = $dt[1];
     $p->{'data[UsersCommune][commune_add_date][day]'} = $dt[2];
 
-
+    my $c = 0;
     for my $g (@{$h->{$d}})
     {
+        next if exists $visited->{$g};
+        $c++;
 #        $p->{'data[UsersCommune][commune_id]'} = $g;
         $p->{'data[UsersCommune]['.$g.']'} = '1';
 }
-     print Dumper $p;
+    next unless $c > 0;
+
+#     print STDERR Dumper $p;
+
+    print STDERR "processing: $d - ".join(",", @{$h->{$d}})."\n";
+
 #        $ua->post('http://zaliczgmine.pl/users_communes/add', $p);
         $ua->post('http://zaliczgmine.pl/users_communes/addmulti', $p);
         die $r->status_line unless $r->is_success;
