@@ -2,4 +2,7 @@ graphics/p5-Geo-Gpx
 graphics/p5-Geo-Proj4
 devel/p5-Geo-ShapeFile
 devel/p5-Data-Dumper
-
+devel/p5-Term-ReadKey
+devel/p5-File-Slurp
+www/p5-libwww
+math/p5-Math-Polygon
