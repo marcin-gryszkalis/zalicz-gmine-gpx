@@ -64,10 +64,10 @@ tracing: poznan-lodz
 ```
 
 ### Process GPX files
-```
 This script will process all gpx files in gpx/ that don't have corresponding .txt file in reports/
+```
 % perl process-all-gpxes.pl
-processing: gpx/2018-12-31_13-33-12_3m.gpx -> reports/2018-12-31_13-33-12_3m.txt                                                                                                                        
+processing: gpx/2018-12-31_13-33-12_3m.gpx -> reports/2018-12-31_13-33-12_3m.txt
 loading gminy
 loading gpx
 loading zg-teryt map
@@ -75,7 +75,7 @@ tracing: 2018-12-31_13-33-12_3m
   # zgid jpt_op teryt   date       nazwa
   1 1655 828626 2262011 2018-12-31 Gdynia
   2 1726 827404 2264011 2018-12-31 Sopot
-processing: gpx/2019-01-05_14-09-21_Afternoon_Ride_Cycling.gpx -> reports/2019-01-05_14-09-21_Afternoon_Ride_Cycling.txt                                                                                                                            
+processing: gpx/2019-01-05_14-09-21_Afternoon_Ride_Cycling.gpx -> reports/2019-01-05_14-09-21_Afternoon_Ride_Cycling.txt
 loading gminy
 loading gpx
 loading zg-teryt map
@@ -109,4 +109,3 @@ zaliczgmine.pl password:
 user: marcin.g (473)
 processing: 2011-03-26 - 678,737
 ```
-
