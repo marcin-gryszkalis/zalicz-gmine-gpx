@@ -79,18 +79,20 @@ for my $d (keys %$h)
     $p->{'data[UsersCommune][commune_add_date][day]'} = $dt[2];
 
     my $c = 0;
+    my @gs = ();
     for my $g (@{$h->{$d}})
     {
         next if exists $visited->{$g};
         $c++;
 #        $p->{'data[UsersCommune][commune_id]'} = $g;
         $p->{'data[UsersCommune]['.$g.']'} = '1';
+        push(@gs, $g);
 }
     next unless $c > 0;
 
 #     print STDERR Dumper $p;
 
-    print STDERR "processing: $d - ".join(",", @{$h->{$d}})."\n";
+    print STDERR "processing: $d - ".join(",", @gs)."\n";
 
 #        $ua->post('http://zaliczgmine.pl/users_communes/add', $p);
         $ua->post('http://zaliczgmine.pl/users_communes/addmulti', $p);
