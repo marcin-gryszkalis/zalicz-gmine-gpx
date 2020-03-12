@@ -10,6 +10,7 @@ my $dest = "all-reports.txt";
 
 my $h;
 my $n;
+my $sfn;
 while (<$source_dir/*.txt>)
 {
     my $sn = $_;
@@ -18,8 +19,8 @@ while (<$source_dir/*.txt>)
 
     open(my $sf, $sn) or die $!;
 
-    while (<$sf>) 
-    { 
+    while (<$sf>)
+    {
         chomp;
 
 #   6 2294 827177 3021021 2018-07-05 Puszczykowo
@@ -32,13 +33,15 @@ while (<$source_dir/*.txt>)
 
         $h->{$zgid} = $zgdate;
         $n->{$zgid} = $zgname;
+        $sn =~ s/\.txt/.gpx/;
+        $sfn->{$zgid} = $sn;
     }
     close($sf);
 
     open(my $df, ">", $dest) or die $!;
     for my $zgid (sort { $h->{$a} cmp $h->{$b} } keys %$h)
     {
-        print $df "$zgid $h->{$zgid} # $n->{$zgid}\n";
+        print $df "$zgid $h->{$zgid} $sfn->{$zgid} # $n->{$zgid}\n";
     }
     close($df);
 }
