@@ -34,6 +34,7 @@ while (<$source_dir/*.txt>)
         $h->{$zgid} = $zgdate;
         $n->{$zgid} = $zgname;
         $sn =~ s/\.txt/.gpx/;
+        $sn =~ s{reports/}{};
         $sfn->{$zgid} = $sn;
     }
     close($sf);
