@@ -57,15 +57,17 @@ my $visited;
 my $prevtime = 0;
 my $i = 1;
 my $iter = $gpx->iterate_trackpoints();
-while (my $pt = $iter->()) 
+while (my $pt = $iter->())
 {
     next if $pt->{time} - $prevtime < $timedelta;
     $prevtime = $pt->{time};
 
+    # print STDERR Dumper $pt;
     my @p = $proj->forward($pt->{lat}, $pt->{lon});
 
     my @f = $shapefile->shapes_in_area ($p[0], $p[1], $p[0], $p[1]);
 
+    # print STDERR Dumper \@f;
     for my $id (@f)
     {
         next if exists $visited->{$id};
