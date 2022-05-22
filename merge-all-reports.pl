@@ -15,7 +15,7 @@ while (<$source_dir/*.txt>)
 {
     my $sn = $_;
 
-    print STDERR "processing: $sn\n";
+    print STDERR "processing: $sn...\r";
 
     open(my $sf, $sn) or die $!;
 
@@ -46,3 +46,5 @@ while (<$source_dir/*.txt>)
     }
     close($df);
 }
+
+print STDERR "\n";
