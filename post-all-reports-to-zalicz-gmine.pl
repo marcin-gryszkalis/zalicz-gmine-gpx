@@ -68,6 +68,7 @@ print STDERR "user: $zguser ($v1)\n";
 for my $d (keys %$h)
 {
     $p = ();
+    $p->{'_method'} = 'POST';
     $p->{'data[UsersCommune][sender]'} = 'map'; 
 
     my @dt = split/-/,$d;
@@ -80,17 +81,22 @@ for my $d (keys %$h)
 
     my $c = 0;
     my @gs = ();
+    my @gjson = ();
     for my $g (@{$h->{$d}})
     {
         next if exists $visited->{$g};
         $c++;
 #        $p->{'data[UsersCommune][commune_id]'} = $g;
-        $p->{'data[UsersCommune]['.$g.']'} = '1';
+#        $p->{'data[UsersCommune]['.$g.']'} = '1';
         push(@gs, $g);
+        push(@gjson, qq{"$g":"a"});
 }
+        
+    $p->{'data[UsersCommune][updateData]'} = "{".join(",",@gjson)."}";
     next unless $c > 0;
 
-#     print STDERR Dumper $p;
+#    print STDERR Dumper $p;
+#    exit;
 
     print STDERR "processing: $d - ".join(",", @gs)."\n";
 
@@ -104,4 +110,13 @@ for my $d (keys %$h)
 #    }
 
 }
+
+# 2021-10-03
+
+# _method: POST
+# data[UsersCommune][sender]: map
+# data[UsersCommune][updateData]: {"61":"a"}
+# data[UsersCommune][commune_add_date][month]: 10
+# data[UsersCommune][commune_add_date][day]: 01
+# data[UsersCommune][commune_add_date][year]: 2021
 
