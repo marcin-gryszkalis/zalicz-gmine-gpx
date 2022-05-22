@@ -116,7 +116,3 @@ y_div = %d
 y_offset = %d
 ", int $avdx, int $avox, int $avdy, int $avoy;
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
