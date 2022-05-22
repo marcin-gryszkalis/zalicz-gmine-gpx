@@ -31,6 +31,15 @@ my @b = qw/
 85 150
 /;
 
+# polska-mcz.png
+@b = qw/
+499 109
+966 398
+871 932
+615 909
+136 669
+81 213
+/;
 
 
 my @xs = ();
@@ -83,7 +92,7 @@ for my $i (0..4)
 
         $dx = 1/$dx;
         $dy = 1/$dy;
-        print "dx = $dx ox = $ox | dy = $dy oy = $oy\n";
+        print "($i,$j) dx = $dx ox = $ox | dy = $dy oy = $oy\n";
 
         $avdx += $dx;
         $avdy += $dy;
@@ -99,7 +108,7 @@ $avdy /= $c;
 $avox /= $c;
 $avoy /= $c;
 
-print "AVERAGE:\n
+printf "AVERAGE:\n
 x_div = %d
 x_offset = %d
 
@@ -107,3 +116,7 @@ y_div = %d
 y_offset = %d
 ", int $avdx, int $avox, int $avdy, int $avoy;
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
