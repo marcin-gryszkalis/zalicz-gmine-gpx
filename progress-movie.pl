@@ -13,6 +13,10 @@ use Geo::ShapeFile::Shape;
 use Geo::Proj4;
 use Geo::Gpx;
 
+
+   # 14  ffmpeg -r 10 -i '%09d.png' -c:v libx264 -vf fps=30 -pix_fmt yuv420p out.mp4
+   # 15  mpv out.mp4
+
 my $proj = Geo::Proj4->new(init => "epsg:2180") or die;
 
 print STDERR "reding config\n";
@@ -52,12 +56,12 @@ close ($mf);
 my $img = Imager->new;
 $img->read(file => "progress-movie/".$mcfg->{file}) or die $img->errstr;
 
-$img->string(x => $cfg->{config}->{name_x}, y => $cfg->{config}->{name_y},
+$img->string(x => $mcfg->{name_x}, y => $mcfg->{name_y},
              string => $cfg->{config}->{name},
              font => $font,
-             size => $cfg->{config}->{name_size},
+             size => $mcfg->{name_size},
              aa => 1,
-             color => $cfg->{config}->{name_color});
+             color => $mcfg->{name_color});
 
 
 print STDERR "parsing all reports\n";

@@ -99,4 +99,11 @@ $avdy /= $c;
 $avox /= $c;
 $avoy /= $c;
 
-print "AVERAGE: dx = $avdx ox = $avox | dy = $avdy oy = $avoy\n";
+print "AVERAGE:\n
+x_div = %d
+x_offset = %d
+
+y_div = %d
+y_offset = %d
+", int $avdx, int $avox, int $avdy, int $avoy;
+
