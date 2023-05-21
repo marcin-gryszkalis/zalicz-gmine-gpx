@@ -7,6 +7,7 @@ use FindBin qw($Bin);
 
 use LWP::UserAgent;
 use Term::ReadKey;
+use IO::Socket::SSL;
 
 my $src = "all-reports.txt";
 
@@ -26,6 +27,11 @@ while (<$sf>)
 
 my $ua = LWP::UserAgent->new(requests_redirectable => ['GET', 'POST']);
 $ua->cookie_jar({}); # temp jar
+
+$ua->ssl_opts(
+    SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE,
+    verify_hostname => 0
+);
 
 my $r = $ua->get('http://zaliczgmine.pl/');
 die $r->status_line unless $r->is_success;
