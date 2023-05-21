@@ -24,8 +24,7 @@ my $shapefile = Geo::ShapeFile->new('gminy');
 
 print STDERR "loading gpx\n";
 my $gpxfn = $ARGV[0] // die "specify gpx";
-open(my $gpxf, "<", $gpxfn ) or die $!;
-my $gpx = Geo::Gpx->new(input => $gpxf);
+my $gpx = Geo::Gpx->new(input => $gpxfn);
 
 my $gpxname = $gpx->name();
 if (!defined $gpxname)
