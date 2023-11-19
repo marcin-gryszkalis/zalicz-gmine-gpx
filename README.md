@@ -3,6 +3,13 @@
 ## Zalicz Gmine
 http://zaliczgmine.pl/
 
+### Incompatibilites with TERYT
+As of September 2023 there are 2 differences between official TERYT database and Zalicz Gminę:
+1. "Zielona Góra obszar wiejski" (id 604) and "Zielona Góra obszar miejski" (id 603) were merged (still separate in Zalicz Gminę)
+2. "Ostrowice" (id 2432) was removed from TERYT (because of bankrupcy, area split between Drawsko Pomorskie and Złocieniec)
+
+These municipalities won't be automatically recognized by the scripts (TERYT database contains area coordinates).
+
 ## Requirements
 
 * unpacked gminy.zip from https://gis-support.pl/granice-administracyjne/
@@ -14,7 +21,7 @@ http://zaliczgmine.pl/
     * Math::Polygon
     * Term::ReadKey
     * File::Slurp 
-
+   
 ## Usage
 
 ```
