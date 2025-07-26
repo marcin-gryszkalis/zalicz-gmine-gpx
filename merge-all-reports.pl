@@ -23,8 +23,7 @@ while (<$source_dir/*.txt>)
     {
         chomp;
 
-#   6 2294 827177 3021021 2018-07-05 Puszczykowo
-        next unless /^\s*\d+\s+(\d+)\s+\d+\s+\d+\s+(\S+)\s+(.*)/;
+        next unless /^\s*\d+\s+(\d+)\s+(\S+)\s+(.*)/;
         my $zgid = $1;
         my $zgdate = $2;
         my $zgname = $3;
