@@ -40,5 +40,4 @@ inc/
 *.gpx
 gpx/*.gpx
 reports/*.txt
-gminy.*
 cache
