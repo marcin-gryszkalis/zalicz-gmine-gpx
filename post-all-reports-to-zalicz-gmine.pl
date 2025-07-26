@@ -23,8 +23,6 @@ while (<$sf>)
     push(@{$h->{$zgdate}}, $zgid);
 }
 
-# print STDERR Dumper $h;
-
 my $ua = LWP::UserAgent->new(requests_redirectable => ['GET', 'POST']);
 $ua->cookie_jar({}); # temp jar
 
@@ -36,7 +34,7 @@ $ua->ssl_opts(
 my $r = $ua->get('http://zaliczgmine.pl/');
 die $r->status_line unless $r->is_success;
 
-ReadMode 'normal'; 
+ReadMode 'normal';
 print "zaliczgmine.pl username: ";
 my $zguser = ReadLine 0;
 chomp $zguser;
@@ -44,7 +42,7 @@ ReadMode 'noecho';
 print "zaliczgmine.pl password: ";
 my $zgpass = ReadLine 0;
 chomp $zgpass;
-ReadMode 'normal'; 
+ReadMode 'normal';
 print "\n";
 
 my $p;
@@ -61,12 +59,12 @@ my $v1 = $2;
 my $visited;
 for my $l (split/[\r\n]/, $html)
 {
-    next unless $l =~ m{<td><a href="/communes/view/(\d+)};
+    next unless $l =~ m{<a href="/communes/view/(\d+)};
     $visited->{$1} = 1;
 }
 my $v2 = scalar keys %$visited;
 
-die "visited mismatch $v1 <> $v2" unless $v1 == $v2; 
+die "visited mismatch $v1 <> $v2" unless $v1 == $v2;
 
 print STDERR "user: $zguser ($v1)\n";
 
@@ -75,7 +73,7 @@ for my $d (keys %$h)
 {
     $p = ();
     $p->{'_method'} = 'POST';
-    $p->{'data[UsersCommune][sender]'} = 'map'; 
+    $p->{'data[UsersCommune][sender]'} = 'map';
 
     my @dt = split/-/,$d;
 #    $p->{'data[UsersCommune][date][year]'} = $dt[0];
@@ -97,32 +95,16 @@ for my $d (keys %$h)
         push(@gs, $g);
         push(@gjson, qq{"$g":"a"});
 }
-        
+
     $p->{'data[UsersCommune][updateData]'} = "{".join(",",@gjson)."}";
     next unless $c > 0;
 
-#    print STDERR Dumper $p;
-#    exit;
-
     print STDERR "processing: $d - ".join(",", @gs)."\n";
 
-#        $ua->post('http://zaliczgmine.pl/users_communes/add', $p);
         $ua->post('http://zaliczgmine.pl/users_communes/addmulti', $p);
         die $r->status_line unless $r->is_success;
 
 # print STDERR $r->decoded_content;
 # exit;
 
-#    }
-
 }
-
-# 2021-10-03
-
-# _method: POST
-# data[UsersCommune][sender]: map
-# data[UsersCommune][updateData]: {"61":"a"}
-# data[UsersCommune][commune_add_date][month]: 10
-# data[UsersCommune][commune_add_date][day]: 01
-# data[UsersCommune][commune_add_date][year]: 2021
-
