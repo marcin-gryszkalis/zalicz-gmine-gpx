@@ -41,3 +41,5 @@ inc/
 gpx/*.gpx
 reports/*.txt
 cache
+all-reports.txt
+

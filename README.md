@@ -1,7 +1,7 @@
 # zalicz-gmine-gpx
 
 ## Zalicz Gmine
-http://zaliczgmine.pl/
+https://zaliczgmine.pl/
 
 ## Requirements
 
@@ -91,7 +91,7 @@ processing: reports/2018-12-31_13-33-12_3m.txt
 ```
 
 ### Post to zaliczgmine.pl
-This script takes all-reports.txt and posts it to http://zaliczgmine.pl
+This script takes all-reports.txt and posts it to https://zaliczgmine.pl
 ```
 % perl post-all-reports-to-zalicz-gmine.pl
 zaliczgmine.pl username: marcin.g
